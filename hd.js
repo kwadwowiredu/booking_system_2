@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stepContents = document.querySelectorAll('.step-content');
     const nextButtons = document.querySelectorAll('.next-button');
     const prevButtons = document.querySelectorAll('.prev-button');
+    const homeButton = document.querySelector('.home-button');
     let currentStep = 1;
 
     // Store user selections
@@ -93,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         email: '',
         phone: '',
         specialRequests: '',
-        paymentMethod: 'credit-card'
+        paymentMethod: 'credit-card',
+        bookingCode: '',
+        bookingPin: ''
     };
 
     // Step 1: Select a Service
@@ -193,10 +196,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Generate Booking Code and PIN
+    function generateBookingCode() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = 'ELITE';
+        for (let i = 0; i < 5; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+    }
+
+    function generateBookingPin() {
+        return Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit PIN
+    }
+
+    // Simulate sending SMS and Email
+    function sendNotifications() {
+        // In a real app, you'd make API calls to Twilio (SMS) and SendGrid (Email) here
+        console.log('Sending SMS to:', bookingData.phone);
+        console.log(`SMS Content: Your Elite Cuts appointment is confirmed! Booking Code: ${bookingData.bookingCode}, PIN: ${bookingData.bookingPin}`);
+        console.log('Sending Email to:', bookingData.email);
+        console.log(`Email Content: Dear ${bookingData.firstName}, your appointment is confirmed. Booking Code: ${bookingData.bookingCode}, PIN: ${bookingData.bookingPin}. Service: ${bookingData.service}, Barber: ${bookingData.barber}, Date: ${bookingData.date}, Time: ${bookingData.time}.`);
+    }
+
+    // Update Confirmation Step
+    function updateConfirmation() {
+        document.querySelector('#booking-code').textContent = bookingData.bookingCode;
+        document.querySelector('#booking-pin').textContent = bookingData.bookingPin;
+        document.querySelector('#confirm-service').textContent = `${bookingData.service} - $${bookingData.price}`;
+        document.querySelector('#confirm-barber').textContent = bookingData.barber;
+        document.querySelector('#confirm-date').textContent = new Date(bookingData.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+        document.querySelector('#confirm-time').textContent = bookingData.time;
+        document.querySelector('#confirm-name').textContent = `${bookingData.firstName} ${bookingData.lastName}`;
+        document.querySelector('#confirm-total').textContent = `$${bookingData.price}`;
+    }
+
     payButton.addEventListener('click', () => {
-        alert('Payment successful! Your appointment is confirmed.');
-        // In a real app, you'd send the bookingData to a backend server here
-        window.location.href = 'homepage.html'; // Redirect to homepage
+        // Simulate payment processing
+        bookingData.bookingCode = generateBookingCode();
+        bookingData.bookingPin = generateBookingPin();
+        sendNotifications(); // Simulate sending SMS and Email
+        currentStep = 7;
+        updateStep();
+        updateConfirmation();
     });
 
     // Navigation between steps
@@ -205,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentStep === 4) {
                 updateSummary();
             }
-            if (currentStep < 6) {
+            if (currentStep < 7) {
                 currentStep++;
                 updateStep();
             }

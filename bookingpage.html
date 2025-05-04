@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Cuts - Book an Appointment</title>
+    <title>Booking - Elite Cuts</title>
     <link rel="stylesheet" href="hd.css">
 </head>
 <body class="booking_body">
     <!-- Navigation Bar -->
     <nav class="navbar">
-      <div class="logo">
-        <img src="logo.png" alt="Elite Cuts Logo"> Elite Cuts
-      </div>
-      <ul class="nav-links">
-        <li><a href="homepage.html">Home</a></li>
-        <li><a href="bookingpage.html">Book Now</a></li>
-        <li><a href="about.html">About Us</a></li>
-      </ul>
+        <div class="logo">
+            <h4>Elite Cuts</h4>
+            <img src="./images/logo.png" alt="Elite Cuts Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="homepage.html">Home</a></li>
+            <li><a href="bookingpage.html" class="active">Booking</a></li>
+            <li><a href="about.html">About</a></li>
+            
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-menu">
+            <ul>
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="bookingpage.html">Booking</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
     </nav>
+
     <div class="booking-container">
         <!-- Progress Bar -->
         <div class="progress-bar">
@@ -39,6 +54,9 @@
             <div class="step" data-step="6">
                 <span class="step-number">6</span> Payment
             </div>
+            <div class="step" data-step="7">
+                <span class="step-number">7</span> Confirmation
+            </div>
         </div>
 
         <!-- Step 1: Select a Service -->
@@ -46,28 +64,28 @@
             <h2>Select a Service</h2>
             <div class="services-grid">
                 <div class="service-card" data-service="Haircut" data-price="25" data-duration="30">
-                    <img src="haircut-icon.png" alt="Haircut Icon">
+                    <img src="./images/haircut-icon.png" alt="Haircut Icon">
                     <h3>Haircut</h3>
                     <p>Classic or modern haircut styled to your preference</p>
                     <p class="price">$25</p>
                     <p class="duration">30 min</p>
                 </div>
                 <div class="service-card" data-service="Beard Trim" data-price="15" data-duration="20">
-                    <img src="beard-trim-icon.png" alt="Beard Trim Icon">
+                    <img src="./images/beard-trim-icon.png" alt="Beard Trim Icon">
                     <h3>Beard Trim</h3>
                     <p>Shape and maintain your beard for a clean look</p>
                     <p class="price">$15</p>
                     <p class="duration">20 min</p>
                 </div>
                 <div class="service-card" data-service="Hot Towel Shave" data-price="30" data-duration="45">
-                    <img src="hot-towel-shave-icon.png" alt="Hot Towel Shave Icon">
+                    <img src="./images/hot-towel-shave-icon.png" alt="Hot Towel Shave Icon">
                     <h3>Hot Towel Shave</h3>
                     <p>Relaxing traditional straight razor shave with hot towel</p>
                     <p class="price">$30</p>
                     <p class="duration">45 min</p>
                 </div>
                 <div class="service-card" data-service="Hair & Beard Combo" data-price="35" data-duration="50">
-                    <img src="combo-icon.png" alt="Combo Icon">
+                    <img src="./images/combo-icon.png" alt="Combo Icon">
                     <h3>Hair & Beard Combo</h3>
                     <p>Complete grooming package for hair and facial hair</p>
                     <p class="price">$35</p>
@@ -113,7 +131,7 @@
             <div class="date-time-container">
                 <div class="date-picker">
                     <h3>Select a Date</h3>
-                    <input type="date" id="date-picker" min="2025-03-30">
+                    <input type="date" id="date-picker" min="2025-05-02">
                 </div>
                 <div class="time-picker">
                     <h3>Select a Time</h3>
@@ -190,8 +208,8 @@
                     <p><strong>Email:</strong> <span id="summary-email"></span></p>
                     <p><strong>Phone:</strong> <span id="summary-phone"></span></p>
                 </div>
-                <div class="summary-total">
-                    <p><strong>Total:</strong> <span id="summary-total"></span></p>
+                <div class="summary-section">
+                    <p class="summary-total"><strong>Total:</strong> <span id="summary-total"></span></p>
                 </div>
             </div>
             <button class="prev-button">Edit Booking</button>
@@ -216,7 +234,6 @@
                         <p>Pay with your mobile wallet</p>
                     </div>
                 </div>
-                <!-- Credit Card Form -->
                 <div class="payment-form" id="credit-card-form">
                     <div class="form-group">
                         <label for="card-number">Card Number</label>
@@ -237,7 +254,6 @@
                         <input type="text" id="cardholder-name" placeholder="John Smith" required>
                     </div>
                 </div>
-                <!-- Mobile Money Form -->
                 <div class="payment-form" id="mobile-money-form" style="display: none;">
                     <div class="form-group">
                         <label for="mobile-provider">Mobile Money Provider</label>
@@ -256,45 +272,86 @@
             </div>
             <button class="prev-button">Back</button>
         </div>
+
+        <!-- Step 7: Confirmation -->
+        <div class="step-content" id="step-7">
+            <h2>Appointment Confirmed!</h2>
+            <div class="confirmation-details">
+                <p>Thank you for booking with Elite Cuts! We've sent your booking code and PIN to your email and phone number via SMS.</p>
+                <div class="confirmation-code">
+                    <p><strong>Booking Code:</strong> <span id="booking-code"></span></p>
+                    <p><strong>PIN:</strong> <span id="booking-pin"></span></p>
+                </div>
+                <div class="confirmation-summary">
+                    <h3>Appointment Summary</h3>
+                    <p><strong>Service:</strong> <span id="confirm-service"></span></p>
+                    <p><strong>Barber:</strong> <span id="confirm-barber"></span></p>
+                    <p><strong>Date:</strong> <span id="confirm-date"></span></p>
+                    <p><strong>Time:</strong> <span id="confirm-time"></span></p>
+                    <p><strong>Name:</strong> <span id="confirm-name"></span></p>
+                    <p><strong>Total:</strong> <span id="confirm-total"></span></p>
+                </div>
+            </div>
+            <button class="home-button"><a href="homepage.html">Return to Home</a></button>
+        </div>
     </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-          <div class="footer-section-1">
-            <img src="./Images/Logo-removebg-preview.png" alt="Trimz House Logo" class="footer-logo">
-            <p class="business-hours-title">Business Hours</p>
-            <p>Monday - Saturday: 10am to 8pm</p>
-            <p>Sunday: 11am to 7pm</p>
-          </div>
-      
-          <div class="footer-section-2">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="home.html">Home</a></li>
-              <li><a href="book.html">Book Your Appointment</a></li>
-              <li><a href="about.html">About Us</a></li>
-            </ul>
-            <h4>Follow Us</h4>
-            <div class="social-icons">
-              <img src="../30 DAYS PROJECT/LOGIN PAGE/insta.jpg">
-              <img src="../30 DAYS PROJECT/LOGIN PAGE/whatsapp.jpg">
-              <img src="../30 DAYS PROJECT/LOGIN PAGE/tiktok.png">
-          </div>
-          </div>
-      
-          <div class="footer-section-3">
-            <h4>Say Hi!</h4>
-            <p>Email Us</p>
-            <p>britainhaircut@gmail.com</p>
-            <h4>Call Us</h4>
-            <p>Phone: 0248666907</p>
-            <h4>Find Us</h4>
-            <p>Konongo-Market</p>
-          </div>
+            <div class="footer-section-1">
+                <img src="./images/logo2.png" alt="Elite Cuts Logo" class="footer-logo">
+                <h4 class="business-hours-title">Business Hours</h4>
+                <p>Monday - Saturday: 9AM - 7PM</p>
+                <p>Sunday: 11AM - 7PM</p>
+            </div>
+            <div class="footer-section-2">
+              <h4>Quick Links</h4>
+              <ul>
+                  <li><a href="homepage.html">Home</a></li>
+                  <li><a href="bookingpage.html">Booking</a></li>
+                  <li><a href="about.html">About Us</a></li>
+              </ul>
+              <h4>Follow Us</h4>
+              <div class="social-icons">
+                <img src="../30 DAYS PROJECT/LOGIN PAGE/insta.jpg">
+                <img src="../30 DAYS PROJECT/LOGIN PAGE/whatsapp.jpg">
+                <img src="../30 DAYS PROJECT/LOGIN PAGE/tiktok.png">
+              </div>
+            </div>
+            <div class="footer-section-3">
+              <h4>Say Hi!</h4>
+              <p>Email Us</p>
+              <p>elitehaircut@gmail.com</p>
+              <h4>Call Us</h4>
+              <p>Phone: 0248666907</p>
+              <h4>Find Us</h4>
+              <p>Konongo-Market</p>
+            </div>
         </div>
         <hr>
-        <p class="copyright">Copyright &copy;2024 Britain Haircut</p>
+        <p class="copyright">Copyright &copy;2025 Elite Cuts. All rights reserved.</p>
     </footer>
 
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        const menuLinks = document.querySelectorAll('.mobile-menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Add your existing booking.js logic here if needed
+    </script>
     <script src="hd.js"></script>
 </body>
 </html>
