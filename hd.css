@@ -193,14 +193,14 @@ body {
 
 /* Premium Services Section */
 .premium-services {
-  padding: 3rem 2rem;
+  padding: clamp(2rem, 8vw, 3rem) 1.5rem;
   text-align: center;
 }
 
 .premium-services h2 {
   color: #0D2B2F;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
+  margin-bottom: 1.5rem;
 }
 
 .services-grid {
@@ -209,31 +209,30 @@ body {
   gap: 1.5rem;
 }
 
-.service-card {
+.service-card-home{
   padding: 2rem;
   border-radius: 10px;
   background-color: #0D2B2F;
   color: #FFD07B;
   transition: all 300ms ease-in;
 }
-
-.service-card:hover {
+.service-card-home:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  transform: scale(1.01);
+  transform: scale(1.02);
 }
 
-.service-card h3 {
+.service-card-home h3 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
-.service-card .price {
+.service-card-home .price {
   font-size: 1.3rem;
   color: #FFD07B;
   margin-bottom: 1rem;
 }
 
-.service-card .small {
+.service-card-home .small {
   color: #fff;
   margin-bottom: 1rem;
 }
@@ -504,42 +503,97 @@ body {
 
 /* Services Grid (Booking) */
 .service-card {
-  padding: 1.5rem;
+  position: relative;
+  padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 10px;
   cursor: pointer;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  height: clamp(200px, 50vw, 250px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.service-card[data-service="Haircut"] {
+    background-image: url('./images/haircut.jpg');
+}
+
+.service-card[data-service="Beard Trim"] {
+    background-image: url('./images/beard.jpg');
+}
+
+.service-card[data-service="Hot Towel Shave"] {
+    background-image: url('./images/photo-6.jpeg');
+}
+
+.service-card[data-service="Hair & Beard Combo"] {
+    background-image: url('./images/haircut-beard.jpg');
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
 }
 
 .service-card.selected {
-  border-color: #0D2B2F;
-  background-color: #6f7f81;
+    border: 5px solid #f8b12e;
+    background-color: rgba(248, 177, 46, 0.3);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
 }
 
 .service-card img {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 1rem;
+    display: none;
 }
 
+.service-card h3,
+.service-card .price,
+.service-card .duration {
+    position: relative;
+    z-index: 2;
+    color: #FFD07B;
+}
+
+.service-card p{
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+
 .service-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    margin-bottom: 0.5rem;
 }
 
 .service-card p {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
 
 .price {
-  font-size: 1.3rem;
-  color: #f4a261;
-  font-weight: bold;
+    font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+    font-weight: bold;
 }
 
 .duration {
-  font-size: 0.9rem;
-  color: #fff;
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
+.service-card:hover {
+    transform: scale(1.02);
 }
 
 /* Barbers Grid */
@@ -735,8 +789,8 @@ body {
 }
 
 .payment-method.active {
-  border-color: #FFD07B;
-  background-color: #ffe7bb;
+  border-color: #f8b12e;
+  background-color: #FFD07B;
 }
 
 .payment-method img {
@@ -1257,7 +1311,6 @@ body {
       font-size: 1.5rem;
   }
 
-  .service-card img,
   .barber-card img,
   .offering-card img,
   .award-card img,
@@ -1312,6 +1365,16 @@ body {
       font-size: 1rem;
   }
 
+  .payment-methods {
+      display: block;
+      margin-top: 5px;
+  }
+
+  .payment-method {
+    margin-top: 8px;
+    padding: 5px 10px;
+  }
+
   .story-content p,
   .award-card p,
   .contact-info p {
@@ -1324,7 +1387,7 @@ body {
 
   .story-image img{
     margin-top: 90px;
-    width: 370px;
+    width: 330px;
     height: 70%;
   }
 
