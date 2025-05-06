@@ -149,17 +149,58 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Step 4: Your Information
+    
     const userInfoForm = document.querySelector('#user-info-form');
     const step4NextButton = document.querySelector('#step-4 .next-button');
-    userInfoForm.addEventListener('input', () => {
-        bookingData.firstName = document.querySelector('#first-name').value;
-        bookingData.lastName = document.querySelector('#last-name').value;
-        bookingData.email = document.querySelector('#email').value;
-        bookingData.phone = document.querySelector('#phone').value;
+    const phoneInput = document.querySelector('#phone');
+
+    function validatePhoneNumber(value) {
+        const phoneRegex = /^\d*$/;
+        return phoneRegex.test(value);
+    }
+
+    function showPhoneError(show) {
+        const errorElement = document.getElementById('phone-error');
+        if (show) {
+            if (!errorElement) {
+                const error = document.createElement('p');
+                error.id = 'phone-error';
+                error.className = 'error-message';
+                error.textContent = 'Please enter a valid phone number (digits only).';
+                phoneInput.parentElement.appendChild(error);
+            }
+            phoneInput.classList.add('error');
+        } else {
+            if (errorElement) {
+                errorElement.remove();
+            }
+            phoneInput.classList.remove('error');
+        }
+    }
+
+    function validateUserInfoForm() {
+        const firstName = document.querySelector('#first-name').value.trim();
+        const lastName = document.querySelector('#last-name').value.trim();
+        const email = document.querySelector('#email').value.trim();
+        const phone = document.querySelector('#phone').value.trim();
+        const isPhoneValid = validatePhoneNumber(phone);
+        const isValid = userInfoForm.checkValidity() && firstName && lastName && email && phone && isPhoneValid;
+
+        bookingData.firstName = firstName;
+        bookingData.lastName = lastName;
+        bookingData.email = email;
+        bookingData.phone = phone;
         bookingData.specialRequests = document.querySelector('#special-requests').value;
-        const isValid = userInfoForm.checkValidity();
+
+        showPhoneError(phone && !isPhoneValid);
         step4NextButton.disabled = !isValid;
-    });
+
+        return isValid;
+    }
+
+    validateUserInfoForm();
+
+    userInfoForm.addEventListener('input', validateUserInfoForm);
 
     // Step 5: Review Your Appointment
     function updateSummary() {
@@ -210,15 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit PIN
     }
 
-    // Simulate sending SMS and Email
-    function sendNotifications() {
-        // In a real app, you'd make API calls to Twilio (SMS) and SendGrid (Email) here
-        console.log('Sending SMS to:', bookingData.phone);
-        console.log(`SMS Content: Your Elite Cuts appointment is confirmed! Booking Code: ${bookingData.bookingCode}, PIN: ${bookingData.bookingPin}`);
-        console.log('Sending Email to:', bookingData.email);
-        console.log(`Email Content: Dear ${bookingData.firstName}, your appointment is confirmed. Booking Code: ${bookingData.bookingCode}, PIN: ${bookingData.bookingPin}. Service: ${bookingData.service}, Barber: ${bookingData.barber}, Date: ${bookingData.date}, Time: ${bookingData.time}.`);
-    }
-
     // Update Confirmation Step
     function updateConfirmation() {
         document.querySelector('#booking-code').textContent = bookingData.bookingCode;
@@ -235,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Simulate payment processing
         bookingData.bookingCode = generateBookingCode();
         bookingData.bookingPin = generateBookingPin();
-        sendNotifications(); // Simulate sending SMS and Email
         currentStep = 7;
         updateStep();
         updateConfirmation();
